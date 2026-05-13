@@ -1,0 +1,47 @@
+hive> create database pi3;
+OK
+Time taken: 0.104 seconds
+hive> use pi3;
+OK
+Time taken: 0.017 seconds
+hive> create table flightPI(year INT, month INT, day INT, day_of_week INT, dep_time INT, crs_dep_time INT, arr_time INT, crs_arr_time INT, unique_carrier STRING, flight_num INT, tail_num STRING, actual_elapsed_time INT, crs_elapsed_time INT, air_time INT, arr_delay INT, dep_delay INT, origin STRING, dest STRING, distance INT, taxi_in INT, taxi_out INT, cancelled INT, cancellation_code STRING, diverted INT, carrier_delay STRING, weather_delay STRING, nas_delay STRING, security_delay STRING, late_aircraft_delay STRING) row format delimited fields terminated by ',' stored as textfile;
+OK
+Time taken: 0.178 seconds
+hive> load data local inpath '/home/cloudera/Desktop/Data_sets/flight_info.txt' into table flightpi;
+Loading data to table pi3.flightpi
+Table pi3.flightpi stats: [numFiles=1, totalSize=25113900]
+OK
+Time taken: 0.921 seconds
+hive> select avg(dep_delay) from flightpi group by day_of_week;
+Query ID = cloudera_20260429014747_49c6a23e-4796-44cd-9d8e-a5eabbb108b4
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1777451296964_0002, Tracking URL = http://quickstart.cloudera:8088/proxy/application_1777451296964_0002/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1777451296964_0002
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2026-04-29 01:47:41,806 Stage-1 map = 0%,  reduce = 0%
+2026-04-29 01:47:53,969 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 2.62 sec
+2026-04-29 01:48:06,168 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 4.44 sec
+MapReduce Total cumulative CPU time: 4 seconds 440 msec
+Ended Job = job_1777451296964_0002
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 4.44 sec   HDFS Read: 25124575 HDFS Write: 135 SUCCESS
+Total MapReduce CPU Time Spent: 4 seconds 440 msec
+OK
+NULL
+14.707556799953336
+12.201610620835156
+8.718846759047764
+16.641743812582657
+13.728978137837915
+10.377005539966904
+14.887172138807552
+Time taken: 38.871 seconds, Fetched: 8 row(s)
+hive> 
